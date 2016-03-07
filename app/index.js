@@ -1,0 +1,37 @@
+var version = "0.0.1";
+var config = require("./config.json");
+var express = require('express');
+var socket = require('socket.io');
+var app = express();
+var server = app.listen(config.webui.port);
+var io = socket.listen(server);
+
+app.set('view engine', 'ejs');
+
+var CasparCG = require('caspar-cg');
+
+var ccg = new CasparCG({
+	host: config.caspar.host,
+	port: config.caspar.port,
+	debug: true
+});
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('play', function(payload){
+    cgg.play("1-1", payload.file, {"loop": true});
+  });
+});
+
+
+var files;
+ccg.connect(function(){
+  ccg.getMediaFiles(function (err, serverInfo) {
+	files=serverInfo;
+ });
+});
+
+
+app.get('/', function(req, res) {
+  res.render('pages/home', {"version": version, "files": files});
+});

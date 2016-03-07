@@ -1,0 +1,9 @@
+{
+  "caspar":{
+    "host":"localhost",
+    "port": 5250
+  },
+  "webui":{
+    "port":8080
+  }
+}
