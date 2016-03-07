@@ -1,43 +1,42 @@
 <html>
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-
-<title>Caspar Loop Control</title>
-
-
-<script src="/socket.io/socket.io.js"></script>
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+  <title>Caspar Loop Control</title>
+  <script src="/socket.io/socket.io.js"></script>
   <script>
     var socket = io.connect('http://' + window.location.host);
-    function play(filename) {
+    function play(filename)
+    {
       console.log("Playing " + filename)
       socket.emit('play', {"file":filename});
     }
-</script>
 
+  </script>
 </head>
 <body>
-  <h1>
-    Welcome to Caspar Loop Control version
-    <%=version%>
-  </h1>
+  <nav class="navbar navbar-default">
+    <h1>
+      Welcome to Caspar Loop Control Version
+      <%=version%>
+    </h1>
+  </nav>
   <div id="container">
     <h3>
       Here's the list of available 'movie' items.
     </h3>
     <ul>
+      <% function toTitleCase(str)
+      {
+        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+      }%>
       <% for( var i in files){%>
         <%if (files[i].type == "MOVIE"){%>
-        <li>  <button type="button" class="btn btn-primary" onclick="play('<%=files[i].file%>')">  <%=files[i].file%></button>
-
-
-        </li>
+         <button type="button" class="btn btn-warning " onclick="play('<%=files[i].file%>')"><%= toTitleCase(files[i].file.replace(/-/g," ").replace(/_/g," ")) %></button>
         <%};%>
       <%};%>
     </ul>
