@@ -24,8 +24,9 @@ io.on('connection', function(socket){
 });
 
 
-var files;
+var files = ["Not yet connected"];
 ccg.connect(function(){
+	files = ["Connected, please try again"];
   ccg.getMediaFiles(function (err, serverInfo) {
 	files=serverInfo;
  });
