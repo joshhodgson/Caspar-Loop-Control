@@ -7,7 +7,20 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+
 <title>Caspar Loop Control</title>
+
+
+<script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io.connect('http://' + window.location.host);
+    function play(filename) {
+      console.log("Playing " + filename)
+      socket.emit('play', {"file":filename});
+    }
+</script>
+
 </head>
 <body>
   <h1>
@@ -16,13 +29,16 @@
   </h1>
   <div id="container">
     <h3>
-      Here's the list of available media items.
+      Here's the list of available 'movie' items.
     </h3>
     <ul>
       <% for( var i in files){%>
-        <li>
-          <%=files[i]%>
+        <%if (files[i].type == "MOVIE"){%>
+        <li>  <button type="button" class="btn btn-primary" onclick="play('<%=files[i].file%>')">  <%=files[i].file%></button>
+
+
         </li>
+        <%};%>
       <%};%>
     </ul>
   </div>

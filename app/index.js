@@ -19,7 +19,8 @@ var ccg = new CasparCG({
 io.on('connection', function(socket){
   console.log('a user connected');
   socket.on('play', function(payload){
-    cgg.play("1-1", payload.file, {"loop": true});
+		console.log("Playing " + payload.file)
+    ccg.play("1-1", payload.file, {"loop": true});
   });
 });
 
@@ -28,7 +29,8 @@ var files = ["Not yet connected"];
 ccg.connect(function(){
 	files = ["Connected, please try again"];
   ccg.getMediaFiles(function (err, serverInfo) {
-	files=serverInfo;
+		console.log(serverInfo)
+	files = serverInfo;
  });
 });
 
