@@ -22,19 +22,23 @@ io.on('connection', function(socket){
 		console.log("Playing " + payload.file)
     ccg.play("1-1", payload.file, {"loop": true});
   });
+  socket.on('stop', function(){ccg.clear("1-1");});
 });
-
+function getFiles(){
+	ccg.getMediaFiles(function (err, serverInfo) {
+		if(config.caspar.debug){console.log(serverInfo)}
+	files = serverInfo;
+ });
+}
 
 var files = ["Not yet connected"];
 ccg.connect(function(){
 	files = ["Connected, please try again"];
-  ccg.getMediaFiles(function (err, serverInfo) {
-		console.log(serverInfo)
-	files = serverInfo;
- });
+  getFiles();
 });
 
 
 app.get('/', function(req, res) {
   res.render('pages/home', {"version": version, "files": files});
+  getFiles();
 });
