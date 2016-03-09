@@ -1,4 +1,5 @@
 <html>
+
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <!-- Optional theme -->
@@ -10,28 +11,32 @@
   <script src="/socket.io/socket.io.js"></script>
   <script>
     var socket = io.connect('http://' + window.location.host);
-    function play(filename)
-    {
-      console.log("Playing " + filename)
-      socket.emit('play', {"file":filename});
-    }
-	function stop(){
-	console.log("Stopping");
-	socket.emit('stop');
-	}
 
+    function play(filename) {
+      console.log("Playing " + filename)
+      socket.emit('play', {
+        "file": filename
+      });
+    }
+
+    function stop() {
+      console.log("Stopping");
+      socket.emit('stop');
+    }
   </script>
 </head>
+
 <body>
- <div class="container">
-  <nav class="navbar navbar-default">
-    <h1 style="padding: 10px;">
-      Welcome to Caspar Loop Control Version
-      <%=version%>
-    
-	<button style="float: right;" class="btn btn-danger" onclick="stop()">Stop Loop</button></h1>
-  </nav>
- 
+  <div class="container">
+    <nav class="navbar navbar-default">
+      <h1 style="padding: 10px;">
+        Welcome to Caspar Loop Control Version
+        <%=version%>
+
+          <button style="float: right;" class="btn btn-danger" onclick="stop()">Stop Loop</button>
+      </h1>
+    </nav>
+
     <h3>
       Here's the list of available 'movie' items.
     </h3>
@@ -40,12 +45,15 @@
       {
         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
       }%>
-      <% for( var i in files){%>
-        <%if (files[i].type == "MOVIE"){%>
-         <button type="button" class="btn btn-warning " onclick="play('<%=files[i].file%>')"><%= toTitleCase(files[i].file.replace(/-/g," ").replace(/_/g," ")) %></button>
-        <%};%>
-      <%};%>
+        <% for( var i in files){%>
+          <%if (files[i].type == "MOVIE"){%>
+            <button type="button" class="btn btn-warning " onclick="play('<%=files[i].file%>')">
+              <%= toTitleCase(files[i].file.replace(/-/g," ").replace(/_/g," ")) %>
+            </button>
+            <%};%>
+              <%};%>
     </ul>
   </div>
 </body>
+
 </html>
