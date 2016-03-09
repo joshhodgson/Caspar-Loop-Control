@@ -13,7 +13,7 @@ var CasparCG = require('caspar-cg');
 var ccg = new CasparCG({
 	host: config.caspar.host,
 	port: config.caspar.port,
-	debug: true
+	debug: config.caspar.debug
 });
 
 io.on('connection', function(socket){
