@@ -15,17 +15,23 @@
       console.log("Playing " + filename)
       socket.emit('play', {"file":filename});
     }
+	function stop(){
+	console.log("Stopping");
+	socket.emit('stop');
+	}
 
   </script>
 </head>
 <body>
+ <div class="container">
   <nav class="navbar navbar-default">
-    <h1>
+    <h1 style="padding: 10px;">
       Welcome to Caspar Loop Control Version
       <%=version%>
-    </h1>
+    
+	<button style="float: right;" class="btn btn-danger" onclick="stop()">Stop Loop</button></h1>
   </nav>
-  <div class="container">
+ 
     <h3>
       Here's the list of available 'movie' items.
     </h3>
