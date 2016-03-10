@@ -44,6 +44,7 @@ ccg.connect(function() {
   getFiles();
 });
 
+app.set('views', __dirname + '/views');
 
 app.get('/', function(req, res) {
   res.render('pages/home', {
@@ -51,4 +52,21 @@ app.get('/', function(req, res) {
     "files": files
   });
   getFiles();
+});
+
+
+
+
+var electron = require('app');
+var BrowserWindow = require('browser-window');
+
+var mainWindow = null;
+
+electron.on('ready', function() {
+    mainWindow = new BrowserWindow({
+        height: 600,
+        width: 800
+    });
+
+    mainWindow.loadUrl('http://127.0.0.1:8080');
 });
