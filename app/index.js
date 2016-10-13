@@ -25,7 +25,12 @@ io.on('connection', function(socket) {
     });
   });
   socket.on('stop', function() {
-    ccg.clear("1-1");
+    ccg.clear("1");
+  });
+  socket.on('offAir', function() {
+	ccg.clear("1");
+	ccg.sendCommand("CG 1 ADD 1 offair-clock 1");
+	console.log("Offair Log");
   });
 });
 

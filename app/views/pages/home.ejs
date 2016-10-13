@@ -23,6 +23,11 @@
       console.log("Stopping");
       socket.emit('stop');
     }
+	
+	function offAir() {
+      console.log("Off Air");
+      socket.emit('offAir');
+    }
   </script>
 </head>
 
@@ -33,6 +38,7 @@
         Welcome to Caspar Loop Control Version
         <%=version%>
 
+		  <button style="float: right;" class="btn btn-danger" onclick="offAir()">Off Air</button><br>
           <button style="float: right;" class="btn btn-danger" onclick="stop()">Stop Loop</button>
       </h1>
     </nav>
