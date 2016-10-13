@@ -20,16 +20,16 @@ io.on('connection', function(socket) {
   console.log('a user connected');
   socket.on('play', function(payload) {
     console.log("Playing " + payload.file);
-    ccg.play("1-1", payload.file, {
+    ccg.play("1-2", payload.file, {
       "loop": true
     });
   });
   socket.on('stop', function() {
-    ccg.clear("1");
+    ccg.clear("1-2");
   });
   socket.on('offAir', function() {
-	ccg.clear("1");
-	ccg.sendCommand("CG 1 ADD 1 offair-clock 1");
+	ccg.clear("1-2");
+	ccg.sendCommand("CG 1-1 ADD 1 offair-clock 1");
 	console.log("Offair Log");
   });
 });
