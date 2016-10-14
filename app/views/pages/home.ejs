@@ -23,7 +23,6 @@
       console.log("Stopping");
       socket.emit('stop');
     }
-	
 
 	function offAir() {
       console.log("Off Air");
@@ -61,6 +60,15 @@
             <%};%>
               <%};%>
     </ul>
+    <h3>
+      Enter a RTMP link below to start a stream ABOVE the loop
+    </h3>
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="rtmp://" aria-describedby="basic-addon2">
+      <span class="input-group-addon" id="basic-addon2"><span class="label label-success"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></span></span>
+      <span class="input-group-addon" id="basic-addon2"><span class="label label-danger"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></span></span>
+    </div>
+
   </div>
 </body>
 
