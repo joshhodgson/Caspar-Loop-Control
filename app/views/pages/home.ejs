@@ -24,6 +24,7 @@
       socket.emit('stop');
     }
 	
+
 	function offAir() {
       console.log("Off Air");
       socket.emit('offAir');
@@ -37,9 +38,10 @@
       <h1 style="padding: 10px;">
         Welcome to Caspar Loop Control Version
         <%=version%>
-
-		  <button style="float: right;" class="btn btn-danger" onclick="offAir()">Off Air</button><br>
-          <button style="float: right;" class="btn btn-danger" onclick="stop()">Stop Loop</button>
+        <div class="btn-group" style="float: right;">
+		        <button class="btn btn-danger" onclick="offAir()">Off Air</button>
+            <button class="btn btn-danger" onclick="stop()">Stop Loop</button>
+        </div>
       </h1>
     </nav>
 
