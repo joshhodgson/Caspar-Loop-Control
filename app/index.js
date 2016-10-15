@@ -41,9 +41,9 @@ io.on('connection', function(socket) {
   });
 
   //Start the RTMP decoder
-  socket.on('startDecoder', function(rtmpLink) {
+  socket.on('startDecoder', function(rtmpLink, cgLayer) {
     ccg.clear("1-3");
-    ccg.play("1-3", rtmpLink);
+    ccg.play("1-" + cgLayer, rtmpLink);
     console.log("RTMP Playing");
   });
 
