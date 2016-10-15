@@ -28,6 +28,16 @@
       console.log("Off Air");
       socket.emit('offAir');
     }
+
+  function startDecoder(){
+    console.log("Decoding RTMP stream Starting");
+    socket.emit('startDecoder', document.getElementById('decoderLink').value);
+  }
+
+  function stopDecoder(){
+    console.log("Decoding RTMP stream Starting");
+    socket.emit('stopDecoder');
+  }
     offAir();
   </script>
 </head>
@@ -66,10 +76,10 @@
     </h3>
     <div class="col-lg-12">
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="rtmp://">
+        <input id="decoderLink" type="text" class="form-control" placeholder="rtmp://">
         <span class="input-group-btn">
-          <button class="btn btn-success" type="button">&nbsp;<span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
-          <button class="btn btn-danger" type="button">&nbsp;<span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>
+          <button class="btn btn-success" type="button" onclick="startDecoder()">&nbsp;<span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
+          <button class="btn btn-danger" type="button" onclick="stopDecoder()">&nbsp;<span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>
         </span>
       </div>
     </div>

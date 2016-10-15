@@ -18,19 +18,39 @@ var ccg = new CasparCG({
 
 io.on('connection', function(socket) {
   console.log('a user connected');
+
+  //Socket funtions below
+  //Play loop function
   socket.on('play', function(payload) {
     console.log("Playing " + payload.file);
     ccg.play("1-2", payload.file, {
       "loop": true
     });
   });
+
+  //Stop all loops
   socket.on('stop', function() {
     ccg.clear("1-2");
   });
+
+  //Shows the offair clock
   socket.on('offAir', function() {
-	ccg.clear("1-2");
-	ccg.sendCommand("CG 1-1 ADD 1 offair-clock 1");
-	console.log("Offair Log");
+  	ccg.clear("1-2");
+  	ccg.sendCommand("CG 1-1 ADD 1 offair-clock 1");
+  	console.log("Offair Log");
+  });
+
+  //Start the RTMP decoder
+  socket.on('startDecoder', function(rtmpLink) {
+    ccg.clear("1-3");
+    ccg.play("1-3", rtmpLink);
+    console.log("RTMP Playing");
+  });
+
+  //Stop the RTMP decoder
+  socket.on('stopDecoder', function() {
+    ccg.clear("1-3");
+    console.log("RTMP Stopped");
   });
 });
 
