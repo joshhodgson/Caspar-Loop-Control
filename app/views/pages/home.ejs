@@ -4,14 +4,18 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <!-- Optional theme -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+  <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-  <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+
   <title>Caspar Loop Control</title>
   <script src="/socket.io/socket.io.js"></script>
   <script>
     var socket = io.connect('http://' + window.location.host);
     var cgRtmpLayer = 3;
+    var savedRTMP = [];
 
     function play(filename) {
       console.log("Playing " + filename)
@@ -30,21 +34,38 @@
       socket.emit('offAir');
     }
 
-  function startDecoder(){
+  function startDecoder(toPlay, cgLayer) {
     console.log("Decoding RTMP stream Starting");
+    console.log("Decoding RTMP Link: " + toPlay + " on layer: " + cgLayer);
     socket.emit('startDecoder', toPlay, cgLayer);
   }
 
-  function stopDecoder(){
-    console.log("Decoding RTMP stream Starting");
-    socket.emit('stopDecoder');
+  function stopDecoder(cgLayer) {
+    console.log("Decoding RTMP stream Stoping");
+    console.log("Clearing RTMP Layer: " + cgLayer);
+    socket.emit('stopDecoder', cgLayer);
   }
-  function addRTMP(){
-    var toAdd = document.getElementById('decoderLink').value;
-    rtmpPlaybackLayer = cgRtmpLayer;
 
+  function addRTMP() {
+    var toAdd = document.getElementById('decoderLink').value;
+    var rtmpPlaybackLayer = cgRtmpLayer;
+    var stringToAdd = '<div class="panel panel-default"> <div class="panel-body"> <p class="panel-title pull-left" style="padding-top: 6px;">' + toAdd + '</p><div class="btn-group pull-right"><button class="btn btn-success" type="button" onclick="startDecoder(\'' + toAdd + '\',' + rtmpPlaybackLayer + ')">&nbsp;<span class="glyphicon glyphicon-play" aria-hidden="true"></span></button><button class="btn btn-danger" type="button" onclick="stopDecoder(' + rtmpPlaybackLayer + ')">&nbsp;<span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button></div></div></div>';
+
+    savedRTMP.push(stringToAdd);
+    console.log("RTMP Link: " + toAdd + " Layer: " + rtmpPlaybackLayer);
     //Prepare for next rtmp link
-    document.getElementById('decoderLink').value = "rtmp://";
+    document.getElementById("decoderLink").value = "rtmp://";
+    document.getElementById("rtmpOutput").innerHTML = printRTMP();
+    cgRtmpLayer++;
+  }
+
+  function printRTMP() {
+    toPrint = " ";
+    console.log("RTMP Stream Added to page");
+
+    for(i=0;i<savedRTMP.length;i++) toPrint += savedRTMP[i];
+    console.log(toPrint);
+    return toPrint;
   }
     offAir();
   </script>
@@ -90,15 +111,7 @@
         </span>
       </div>
       <br>
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <p class="panel-title pull-left" style="padding-top: 6px;">rtmp://la1tv-wowza1.lancs.ac.uk/bailriggfm/studio</p>
-          <div class="btn-group pull-right">
-            <button class="btn btn-success" type="button" onclick="startDecoder()">&nbsp;<span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
-            <button class="btn btn-danger" type="button" onclick="stopDecoder()">&nbsp;<span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>
-          </div>
-        </div>
-      </div>
+      <p id="rtmpOutput"></p>
 
     </div>
   </div>

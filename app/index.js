@@ -1,4 +1,4 @@
-var version = "0.0.1";
+var version = "0.1.1";
 var config = require("./config.json");
 var express = require('express');
 var socket = require('socket.io');
@@ -18,7 +18,7 @@ var ccg = new CasparCG({
 
 io.on('connection', function(socket) {
   console.log('a user connected');
-
+  console.log(ccg.sendCommand("info"));
   //Socket funtions below
   //Play loop function
   socket.on('play', function(payload) {
@@ -42,14 +42,15 @@ io.on('connection', function(socket) {
 
   //Start the RTMP decoder
   socket.on('startDecoder', function(rtmpLink, cgLayer) {
-    ccg.clear("1-3");
-    ccg.play("1-" + cgLayer, rtmpLink);
-    console.log("RTMP Playing");
+    console.log("RTMP Playing: " + rtmpLink + " On layer: " + cgLayer);
+    ccg.clear("1-" + cgLayer);
+    ccg.play("1-" + cgLayer + " \"" + rtmpLink + "\"");
+
   });
 
   //Stop the RTMP decoder
-  socket.on('stopDecoder', function() {
-    ccg.clear("1-3");
+  socket.on('stopDecoder', function(cgLayer) {
+    ccg.clear("1-" + cgLayer);
     console.log("RTMP Stopped");
   });
 });
